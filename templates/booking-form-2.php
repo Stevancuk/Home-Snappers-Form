@@ -225,7 +225,7 @@ do_action( 'ava_after_main_title' );
 						</div>
 					</section>
 					<section id='section7' class='allSections'>
-						<h3>Do we need an appointment time or can we go anytime on the cpecified date?</h3>
+						<h3>Do we need an appointment time or can we go anytime on the specified date?</h3>
 						<div id='section7TwoButtons' class='allTwoButtonsWidth'>
 							<div id='goAnyButtonSection7' class='allButtons sprite26 sprite-goanytime-grey'>
 							</div>

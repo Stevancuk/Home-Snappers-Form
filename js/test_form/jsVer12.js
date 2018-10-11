@@ -1743,7 +1743,6 @@ $('#otherSection9NormalHover').click(function(){
     formButtons.resetObjectSection(formButtons.Sec9Butt5);
     $('#section9FiveButtons2, #section9FiveButtons3, #section9FiveButtons4, #section9FiveButtons1, #section9FiveButtons5').addClass('fadedButton'); 
     $(this).removeClass('fadedButton');
-    $(this).css('display','none');
     if (sectionsCompleted >= 90){
         $('#section10, #section11a5Aerial, #section11b, #section11, #section12, #section13, #section14, #section15, #section16, #section17, #section18').addClass('sectionHidden');
         $('#section10, #section11a5Aerial, #section11b, #section11, #section12, #section13, #section14, #section15, #section16, #section17, #section18').removeClass('sectionShow');
@@ -1760,6 +1759,7 @@ $('#otherSection9NormalHover').click(function(){
     // }, 500);
     sec9Other = 1;
     sectionsCompleted = 89;
+    $(this).css('display','none');
     $('#otherSection9Input').css('display','block').focus();
 });
 $('#otherSection9Input').click(function(){
@@ -3325,6 +3325,7 @@ function testingFillForm() {
 } // testingFillForm() ends
 
 $(function() {
+	geolocate();
     screenHeight = $(window).height();
     // INPUT MASK FOR TELEPHONE   https://github.com/RobinHerbots/Inputmask
     $('#phoneName').inputmask({"mask": "(999) 999-9999"}); 
@@ -3410,17 +3411,240 @@ $('#streetAddress, #cityAddress, #zipCodeAddress').focusout(function() {
 });
 
 
+var allUserInputs = {};
+$('#submitButton').on("click", function(){
+	// make JSON for POST
+
+	if ( $('#yesFirstButton').hasClass("sprite-yes-active") ) {
+		allUserInputs.workedWithUsBefore01 = true;
+	}else if ( $('#noFirstButton').hasClass("sprite-no-active") ) {
+		allUserInputs.workedWithUsBefore01 = false;
+	}
+
+	//Fill out form as..
+	if ( $('#agentButton').hasClass("sprite-2_0_agent-active") ) {
+		allUserInputs.fillOutFormAs = 'agent';
+	}else if( $('#assistantButton').hasClass("sprite-2_1_assistant-active") ) {
+		allUserInputs.fillOutFormAs = 'assistant';
+	}else if( $('#homeownerButton').hasClass("sprite-2_2_homeowner-active") ) {
+		allUserInputs.fillOutFormAs = 'homeowner';
+	}
+	//OTHER
+	allUserInputs.fillOutFormAsOTHER = $('#otherSection2Input').val();
+
+	//Would you like your info or an agent's info on the virtual tour?
+	if ( $('#mineFirstButton').hasClass("sprite-4_0_mine-active") ) {
+		allUserInputs.yourInfoOrAgentsInfo = 'mine';
+	}else if ( $('#anAgentsFirstButton').hasClass("sprite-4_1_an-agent_s-active") ) {
+		allUserInputs.yourInfoOrAgentsInfo = "agent's";
+	}
+
+	//The property is..
+	if ( $('#vacantFirstButton').hasClass("sprite-11_0_vacant-active") ) {
+		allUserInputs.vacantOrOccupied = 'vacant';
+	}else if ( $('#occupiedFirstButton').hasClass("sprite-11_1_occupied-active") ) {
+		allUserInputs.vacantOrOccupied = 'occupied';
+	}
+
+	//Would you like us to contact the homeowner to setup the appointment?
+	if ( $('#section4YesButton1').hasClass("sprite-yes-active") ) {
+		allUserInputs.contactTheHomeowner = 'YesContactHomeowner';
+	}else if ( $('#section4NoButton2').hasClass("sprite-no-active") ) {
+		allUserInputs.contactTheHomeowner = "NoContactHomeowner";
+
+	//When will the home be ready to have the photos taken?
+	if ( $('#ImmediButton').hasClass("sprite-20_0_immediately-active") ) {
+		allUserInputs.whenToTakePhotos = 'takePhotosImmediately';
+	}else if( $('#specificButton').hasClass("sprite-20_1_specific-date-active") ) {
+		allUserInputs.whenToTakePhotos = 'takePhotosOnSpecificDate';
+	}
+	//OTHER
+	allUserInputs.whenToTakePhotosOTHER = $('#otherSection5Input').val();
+	}
+
+	//Do we need an appointment or can we go as soon as possible?
+	if ( $('#goAnyButton').hasClass("sprite-goanytime-blue") ) {
+		allUserInputs.doWeNeedAppointment = 'appointmentAnytime';
+	}else if( $('#needAppoButton').hasClass("sprite-26_1_need-appointment-active") ) {
+		allUserInputs.doWeNeedAppointment = 'weNeedAppointment';
+	}
+	//OTHER
+	allUserInputs.doWeNeedAppointmentOTHER = $('#otherSection6Input').val();
+
+	//Do we need an appointment time or can we go anytime on the cpecified date?
+	if ( $('#goAnyButtonSection7').hasClass("sprite-goanytime-blue") ) {
+		allUserInputs.appointmentOnSpecifiedDate = 'yesAppointmentOnSpecifiedDate';
+	}else if( $('#needAppoButtonSection7').hasClass("sprite-26_1_need-appointment-active") ) {
+		allUserInputs.appointmentOnSpecifiedDate = 'noAppointmentOnSpecifiedDate';
+	}
+	//OTHER
+	allUserInputs.appointmentOnSpecifiedDateOTHER = $('#otherSection7Input').val();
+
+	//Method of Entry with 2 options
+	if ( $('#comboLockButtonSection82').hasClass("sprite-28_0_combo-active") ) {
+		allUserInputs.methodOfEntry2Options = 'comboLockbox';
+	}else if( $('#supraIboxButtonSection82').hasClass("sprite-28_1_supra-active") ) {
+		allUserInputs.methodOfEntry2Options = 'supraIbox';
+	}
+	//OTHER
+	allUserInputs.methodOfEntry2OptionsOTHER = $('#otherSection82Input').val();
+
+	//Method of Entry with 3 options
+	if ( $('#comboLockButtonSection8').hasClass("sprite-28_0_combo-active") ) {
+		allUserInputs.methodOfEntry3Options = 'comboLockbox';
+	}else if( $('#supraIboxButtonSection8').hasClass("sprite-28_1_supra-active") ) {
+		allUserInputs.methodOfEntry3Options = 'supraIbox';
+	}else if( $('#meetSomeButtonSection8').hasClass("sprite-28_2_meeting-active") ) {
+		allUserInputs.methodOfEntry3Options = 'meetingSomeone';
+	}	
+	//OTHER
+	allUserInputs.methodOfEntry3OptionsOTHER = $('#otherSection8Input').val();
+
+	//Interior/Exterior Photos
+	if ( $('#section9FiveButtons1').hasClass("sprite-35_0_15photos-active") ) {
+		allUserInputs.interiorExteriorPhotos = 'interiorExterior15';
+	}else if( $('#section9FiveButtons2').hasClass("sprite-35_1_25photos-active") ) {
+		allUserInputs.interiorExteriorPhotos = 'interiorExterior25';
+	}else if( $('#section9FiveButtons3').hasClass("sprite-35_2_36photos-active") ) {
+		allUserInputs.interiorExteriorPhotos = 'interiorExterior36';
+	}else if( $('#section9FiveButtons4').hasClass("sprite-35_3_50photos-active") ) {
+		allUserInputs.interiorExteriorPhotos = 'interiorExterior50';
+	}else if( $('#section9FiveButtons5').hasClass("sprite-none-active") ) {
+		allUserInputs.interiorExteriorPhotos = 'interiorExteriorNone';
+	}	
+	//OTHER
+	allUserInputs.interiorExteriorPhotosOTHER = $('#inputWrapperSection9').val();
+
+	//Would you like drone photos and/or drone video?
+	if ( $('#yesDroneMain').hasClass("sprite-37_0_yes-drone-active") ) {
+		allUserInputs.dronePhotosAndOrVideos = 'dronePhotosAndOrVideosYes';
+	}else if( $('#noDroneMain').hasClass("sprite-37_1_no-drone-active") ) {
+		allUserInputs.dronePhotosAndOrVideos = 'dronePhotosAndOrVideosNo';
+	}
+
+	//Aerial Photos, Aerial Video, or Both?
+	if ( $('#photosOnlyButtonSection11').hasClass("sprite-38_1_photosonly-active") ) {
+		allUserInputs.aerialPhotosAndOrVideos = 'aerialPhotosOnly';
+	}else if( $('#photosAndVideoButtonSection11').hasClass("sprite-38_2_photosvideo-active") ) {
+		allUserInputs.aerialPhotosAndOrVideos = 'aerialPhotosAndVideos';
+	}else if( $('#videoOnlyButtonSection11').hasClass("sprite-38_0_video-only-active") ) {
+		allUserInputs.aerialPhotosAndOrVideos = 'aerialVideosOnly';
+	}
+
+	//Aerial/Drone Photos
+	if ( $('#section11aFiveButtons1').hasClass("sprite-40_0_1aerial-active") ) {
+		allUserInputs.aerialDronePhotos = 'aerialDrone1';
+	}else if( $('#section11aFiveButtons2').hasClass("sprite-40_1_5aerial-active") ) {
+		allUserInputs.aerialDronePhotos = 'aerialDrone5';
+	}else if( $('#section11aFiveButtons3').hasClass("sprite-40_2_10aerial-active") ) {
+		allUserInputs.aerialDronePhotos = 'aerialDrone10';
+	}else if( $('#section11aFiveButtons4').hasClass("sprite-40_3_20aerial-active") ) {
+		allUserInputs.aerialDronePhotos = 'aerialDrone20';
+	}else if( $('#section11aFiveButtons5').hasClass("sprite-none-active") ) {
+		allUserInputs.aerialDronePhotos = 'aerialDroneNone';
+	}	
+	//OTHER
+	allUserInputs.aerialDronePhotosOTHER = $('#otherSection11aInput').val();
+
+	//HD Video1
+	if ( $('#section12FiveButtons1').hasClass("sprite-none1-active") ) {
+		allUserInputs.videoHD1 = 'None';
+	}else if( $('#section12ThreeButtons2').hasClass("sprite-walkthrough-video175blue") ) {
+		allUserInputs.videoHD1 = 'walkthroughVideo';
+	}else if( $('#section12FiveButtons3').hasClass("sprite-cine299blue") ) {
+		allUserInputs.videoHD1 = 'cinematicVideo';
+	}
+
+	//HD Video2
+	if ( $('#section13ThreeButtons1').hasClass("sprite-aerialonly49-active") ) {
+		allUserInputs.videoHD2 = 'aerialOnly';
+	}else if( $('#section13ThreeButtons2').hasClass("sprite-walkthrough-aerial-199-active") ) {
+		allUserInputs.videoHD2 = 'walkthroughAndAerial';
+	}else if( $('#section13ThreeButtons3').hasClass("sprite-cinematic-aerial299-active") ) {
+		allUserInputs.videoHD2 = 'cinematicAndAerial';
+	}
+
+	//Would you like a Dollhouse Virtual Reality Tour? (Price is below)
+	if ( $('#yesSection15Button').hasClass("sprite-yes-active") ) {
+		allUserInputs.dollHouse = 'dollHouseYes';
+	}else if( $('#noSection15Button').hasClass("sprite-no-active") ) {
+		allUserInputs.dollHouse = 'dollHouseNo';
+	}
+
+	//Additional Premier Offerings
+	if ( $('#section16ThreeButtons1').hasClass("sprite-flyer-blue") ) {
+		allUserInputs.flyerPremierOfferings = 'flyerPremierOfferings';
+	}
+	if( $('#section16ThreeButtons2').hasClass("sprite-twilight-blue") ) {
+		allUserInputs.twilightPremierOfferings = 'twilightPremierOfferings';
+	}
+	if( $('#section16ThreeButtons3').hasClass("sprite-youtube-blue") ) {
+		allUserInputs.youtubePremierOfferings = 'youtubePremierOfferings';
+	}
+
+	//Photo Turnaround
+	if ( $('#nextDaySection17ButtonLeft1').hasClass("sprite-next-day-by-12-free-blue") ) {
+		allUserInputs.photoTurnaround = 'free';
+	}else if( $('#nextDaySection17ButtonLeft2').hasClass("sprite-same-day-by-9-25-blue") ) {
+		allUserInputs.photoTurnaround = '25';
+	}else if( $('#nextDaySection17ButtonLeft3').hasClass("sprite-4-hours-49-blue") ) {
+		allUserInputs.photoTurnaround = '49';
+	}
+
+	//Video Turnaround
+	if ( $('#nextDaySection17ButtonRight1').hasClass("sprite-2-business-days-by-12-free-blue") ) {
+		allUserInputs.videoTurnaround = 'free';
+	}else if( $('#nextDaySection17ButtonRight2').hasClass("sprite-next-day-by-9-25-blue") ) {
+		allUserInputs.videoTurnaround = '25';
+	}else if( $('#nextDaySection17ButtonRight3').hasClass("sprite-next-business-day-by-12-49-blue") ) {
+		allUserInputs.videoTurnaround = '49';
+	}
+
+	//How did you hear about us?
+	if ( $('#googleButton').hasClass("sprite-60_0_google-active") ) {
+		allUserInputs.howDidYouHearAboutUs = 'googleSearch';
+	}else if( $('#referralButton').hasClass("sprite60 sprite-60_1_referral-active") ) {
+		allUserInputs.howDidYouHearAboutUs = 'referral';
+	}	
+	//OTHER
+	allUserInputs.howDidYouHearAboutUsOTHER = $('#otherSection18aInput').val();
+
+	//INPUTS
+	$.each( $('#mainWrapperHomeSnappers input') , function(){
+		allUserInputs[ this.id ] = $(this).val();
+	})
+	//TEXTAREAS
+	$.each( $('#mainWrapperHomeSnappers textarea') , function(){
+		allUserInputs[ this.id ] = $(this).val();
+	})
+	//geolocation
+	allUserInputs.lat = geolocation.lat;
+	allUserInputs.lng = geolocation.lng;
+
+	console.log(allUserInputs);
+
+	$.post('https://apps.homesnappers.com/booking-form/new', allUserInputs, null, 'jsonp').done(function(response) {
+		console.log(response);
+		if(response) {
+
+		} else {
+
+		}
+	});
+})
+
+
 
 
 // function initAutocomplete() {
-// // Create the autocomplete object, restricting the search to geographical
-// // location types.
+// Create the autocomplete object, restricting the search to geographical
+// location types.
 // autocomplete = new google.maps.places.Autocomplete(
-//     /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+//     * @type {!HTMLInputElement} (document.getElementById('autocomplete')),
 //     {types: ['geocode']});
 
-// // When the user selects an address from the dropdown, populate the address
-// // fields in the form.
+// When the user selects an address from the dropdown, populate the address
+// fields in the form.
 // autocomplete.addListener('place_changed', fillInAddress);
 // }
 // function fillInAddress() {
@@ -3458,19 +3682,20 @@ $('#streetAddress, #cityAddress, #zipCodeAddress').focusout(function() {
 // }
 
 // Bias the autocomplete object to the user's geographical location,
-      // as supplied by the browser's 'navigator.geolocation' object.
-// function geolocate() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(function(position) {
-//             var geolocation = {
-//                 lat: position.coords.latitude,
-//                 lng: position.coords.longitude
-//             };
-//             var circle = new google.maps.Circle({
-//                 center: geolocation,
-//                 radius: position.coords.accuracy
-//             });
-//             autocomplete.setBounds(circle.getBounds());
-//         });
-//     }
-// }
+//       as supplied by the browser's 'navigator.geolocation' object.
+var geolocation;
+function geolocate() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            geolocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            // var circle = new google.maps.Circle({
+            //     center: geolocation,
+            //     radius: position.coords.accuracy
+            // });
+            // autocomplete.setBounds(circle.getBounds());
+        });
+    }
+}
