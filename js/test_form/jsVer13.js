@@ -3325,7 +3325,7 @@ function testingFillForm() {
 } // testingFillForm() ends
 
 $(function() {
-	geolocate();
+	// geolocate();
     screenHeight = $(window).height();
     // INPUT MASK FOR TELEPHONE   https://github.com/RobinHerbots/Inputmask
     $('#phoneName').inputmask({"mask": "(999) 999-9999"}); 
@@ -3376,6 +3376,8 @@ $(window).on('load', function(){
 // var placeSearch, autocomplete, place;
 var geocoder = new google.maps.Geocoder();
 var address, addressGmaps, cityGmaps, zipGmaps;
+var addressLat, addressLng;
+var distanceFromHomeSnappers, durationToHomeSnappers;
 function newGMaps() {
     addressGmaps = $("#streetAddress").val();
     cityGmaps = $("#cityAddress").val();
@@ -3386,6 +3388,8 @@ function newGMaps() {
           if (status == google.maps.GeocoderStatus.OK)
           {
             var destinationGmaps = results[0].formatted_address;
+            addressLat = results[0]['geometry']['location'].lat();
+            addressLng = results[0]['geometry']['location'].lng();
             
             var service = new google.maps.DistanceMatrixService();
             service.getDistanceMatrix(
@@ -3397,10 +3401,14 @@ function newGMaps() {
               }, callback);
 
             function callback(response, status) {
-              console.log('Distance is: ' + response.rows[0].elements[0].distance.text + ' and you will need approx ' + response.rows[0].elements[0].duration.text + ' to drive there');
-                $('#invizP1Distance').text(response.rows[0].elements[0].distance.text);
-                $('#invizP2TravelTime').text(response.rows[0].elements[0].duration.text);
-                $('#invizP3FormattedAdress').text(destinationGmaps);
+                if ( (status == 'OK') && (response.rows[0].elements[0].status == 'OK') ) {
+                    distanceFromHomeSnappers = response.rows[0].elements[0].distance.text;
+                    durationToHomeSnappers = response.rows[0].elements[0].duration.text;
+                  // console.log('Distance is: ' + response.rows[0].elements[0].distance.text + ' and you will need approx ' + response.rows[0].elements[0].duration.text + ' to drive there');
+                  //   $('#invizP1Distance').text(response.rows[0].elements[0].distance.text);
+                  //   $('#invizP2TravelTime').text(response.rows[0].elements[0].duration.text);
+                  //   $('#invizP3FormattedAdress').text(destinationGmaps);
+                }
             }
           }
         });
@@ -3618,8 +3626,10 @@ $('#submitButton').on("click", function(){
 		allUserInputs[ this.id ] = $(this).val();
 	})
 	//geolocation
-	allUserInputs.lat = geolocation.lat;
-	allUserInputs.lng = geolocation.lng;
+    allUserInputs.addressLat = addressLat;
+    allUserInputs.addressLng = addressLng;
+    allUserInputs.distanceFromHomeSnappers = distanceFromHomeSnappers;
+    allUserInputs.durationToHomeSnappers = durationToHomeSnappers;
 
 	console.log(allUserInputs);
 
@@ -3634,6 +3644,20 @@ $('#submitButton').on("click", function(){
 })
 
 
+// function geocodeAddress(geocoder, resultsMap) {
+//   var address = document.getElementById('address').value;
+//   geocoder.geocode({'address': address}, function(results, status) {
+//     if (status === 'OK') {
+//       resultsMap.setCenter(results[0].geometry.location);
+//       var marker = new google.maps.Marker({
+//         map: resultsMap,
+//         position: results[0].geometry.location
+//       });
+//     } else {
+//       alert('Geocode was not successful for the following reason: ' + status);
+//     }
+//   });
+// }
 
 
 // function initAutocomplete() {
@@ -3680,22 +3704,3 @@ $('#submitButton').on("click", function(){
 //     section4Zip = $('#zipCodeAddress').val();
 //     testSection4a();
 // }
-
-// Bias the autocomplete object to the user's geographical location,
-//       as supplied by the browser's 'navigator.geolocation' object.
-var geolocation;
-function geolocate() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            geolocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            // var circle = new google.maps.Circle({
-            //     center: geolocation,
-            //     radius: position.coords.accuracy
-            // });
-            // autocomplete.setBounds(circle.getBounds());
-        });
-    }
-}
