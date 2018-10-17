@@ -3643,6 +3643,36 @@ $('#submitButton').on("click", function(){
 	});
 })
 
+// ##################################################################
+// ####################  Report Bug With Screenshot #################
+// ##################################################################
+
+// $('#').on("click", function(){
+//     // Make padding bottom for inputs for better look of jpg made by html2canvas lib
+//     $('input').css("padding-bottom", "20px");
+
+//     //Make canvas using html2canvas lib
+//     html2canvas(document.querySelector("#mainWrapperHomeSnappers")).then(canvas => {
+//         document.body.appendChild(canvas)
+//     });
+    
+//     // Make png (base64) out of canvas tag
+//     var canvas1 = document.getElementsByTagName("canvas")[0];
+//     var img    = canvas1.toDataURL("image/png");
+
+//     //Send it on email???
+
+
+
+
+
+
+
+// })
+
+
+
+
 
 // function geocodeAddress(geocoder, resultsMap) {
 //   var address = document.getElementById('address').value;

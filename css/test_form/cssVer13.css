@@ -909,6 +909,7 @@ footer, #mainWrapperHomeSnappers header, #mainWrapperHomeSnappers hgroup, #mainW
 }
 #mainWrapperHomeSnappersForm #mainWrapperHomeSnappers input {
 	padding: 1px 7px;
+	/*padding-bottom: 20px;*/
 }
 #mainWrapperHomeSnappersForm #mainWrapperHomeSnappers #yourInfoForm input,#mainWrapperHomeSnappersForm #mainWrapperHomeSnappers #agentInfoForm input {
 	width: 200px;
