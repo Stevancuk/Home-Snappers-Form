@@ -3324,47 +3324,7 @@ function testingFillForm() {
 
 } // testingFillForm() ends
 
-$(function() {
-	// geolocate();
-    screenHeight = $(window).height();
-    // INPUT MASK FOR TELEPHONE   https://github.com/RobinHerbots/Inputmask
-    $('#phoneName').inputmask({"mask": "(999) 999-9999"}); 
-    $('#agentsPhoneName').inputmask({"mask": "(999) 999-9999"}); 
-    $('#phoneHomeowner').inputmask({"mask": "(999) 999-9999"}); 
 
-    $('#main').addClass('importantRule');
-
-    new AutoNumeric('#sqftInput', { currencySymbol : ' sqft',
-                                    modifyValueOnWheel : false,
-                                    decimalPlaces : '0',
-                                    formatOnPageLoad : false,
-                                    currencySymbolPlacement    : AutoNumeric.options.currencySymbolPlacement.suffix });
-    new AutoNumeric('#listPrice', { currencySymbol : '$',
-                                        modifyValueOnWheel : false,
-                                        formatOnPageLoad : false,                                        
-                                        decimalPlaces : '0' });
-    inputsLimitations();    
-    Start();
-    // $('#mainWrapperHomeSnappers').click(function() { pricingHandler(); });
-    // $('#mainWrapperHomeSnappers').css('padding-bottom', screenHeight/4 );
-    // test for multiple IDs
-    // $('[id]').each(function(){
-    //     var ids = $('[id="'+this.id+'"]');
-    //     if(ids.length>1 && ids[0]==this)
-    //     console.log('Multiple IDs #'+this.id);
-    // });
-
-    // emailInputCorrection();    
-
-    // TESTING - values from address bar go to input fields and clicks
-    testingFillForm();
-
-});
-$(window).on('load', function(){
-    $('html, body').animate({
-        scrollTop: ($("#section1").offset().top + $("#section1").height() - 0.70*$(window).height())
-    }, 500);
-});
 // Google Maps
 // This example displays an address form, using the autocomplete feature
 // of the Google Places API to help users fill in the information.
@@ -3647,7 +3607,16 @@ $('#submitButton').on("click", function(){
 // ####################  Report Bug With Screenshot #################
 // ##################################################################
 
-// $('#').on("click", function(){
+$('#open_report_bug p').on("click", function(){
+    $('#bug_report_wrapper').css("display", "block");
+    $('#bug_report_wrapper').css("bottom", "100px" );
+})
+$('#bug_close').on("click", function(){
+    $('#bug_report_wrapper').css("display", "none");
+})
+
+// $('#report_bug_form > button').on("click", function(e){
+    // e.preventDefault();
 //     // Make padding bottom for inputs for better look of jpg made by html2canvas lib
 //     $('input').css("padding-bottom", "20px");
 
@@ -3671,6 +3640,49 @@ $('#submitButton').on("click", function(){
 // })
 
 
+
+$(function() {
+    // geolocate();
+    screenHeight = $(window).height();
+    $('#mainWrapperHomeSnappersForm').css( "min-height", screenHeight - $('#wpadminbar').height() - 134 );
+    // INPUT MASK FOR TELEPHONE   https://github.com/RobinHerbots/Inputmask
+    $('#phoneName').inputmask({"mask": "(999) 999-9999"}); 
+    $('#agentsPhoneName').inputmask({"mask": "(999) 999-9999"}); 
+    $('#phoneHomeowner').inputmask({"mask": "(999) 999-9999"}); 
+
+    $('#main').addClass('importantRule');
+
+    new AutoNumeric('#sqftInput', { currencySymbol : ' sqft',
+                                    modifyValueOnWheel : false,
+                                    decimalPlaces : '0',
+                                    formatOnPageLoad : false,
+                                    currencySymbolPlacement    : AutoNumeric.options.currencySymbolPlacement.suffix });
+    new AutoNumeric('#listPrice', { currencySymbol : '$',
+                                        modifyValueOnWheel : false,
+                                        formatOnPageLoad : false,                                        
+                                        decimalPlaces : '0' });
+    inputsLimitations();    
+    Start();
+    // $('#mainWrapperHomeSnappers').click(function() { pricingHandler(); });
+    // $('#mainWrapperHomeSnappers').css('padding-bottom', screenHeight/4 );
+    // test for multiple IDs
+    // $('[id]').each(function(){
+    //     var ids = $('[id="'+this.id+'"]');
+    //     if(ids.length>1 && ids[0]==this)
+    //     console.log('Multiple IDs #'+this.id);
+    // });
+
+    // emailInputCorrection();    
+
+    // TESTING - values from address bar go to input fields and clicks
+    testingFillForm();
+
+});
+$(window).on('load', function(){
+    $('html, body').animate({
+        scrollTop: ($("#section1").offset().top + $("#section1").height() - 0.70*$(window).height())
+    }, 500);
+});
 
 
 

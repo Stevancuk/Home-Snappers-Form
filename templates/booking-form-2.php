@@ -515,6 +515,43 @@ do_action( 'ava_after_main_title' );
 						<h2 id ='sumPriceLine'> SUM <span class='priceHolder'> 150</span></h2>
 					</div> -->
 				</div>
+
+				<div id="open_report_bug">
+					<p> Report Bug </p>
+				</div>
+
+				<div id="bug_report_wrapper">
+					<div id="report_bug">
+						<div id="bug_top">
+							<h4> Report a Bug </h4>
+							<button id="bug_close">
+								<span class="ui-button-icon ui-icon ui-icon-closethick">
+							</button>
+						</div>
+						<form id="report_bug_form">	
+							<h4>
+								Oh no! Help us squash it and help you get your appointment booked.
+							</h4>
+
+							<fieldset id="describe_field">
+								<h5>
+									Describe your issue below <span>*</span>
+								</h5>
+								<textarea id="bug_describe">
+									
+								</textarea>								
+							</fieldset>
+
+							<fieldset>
+								<h5>
+									Your email address <span>*</span>
+								</h5>
+								<input type="email" id="bug_email">
+							</fieldset>
+							<button type="submit"> Submit Report</button>
+						</form>
+					</div>
+				</div>
 			</div><!-- end mainWrapperHomeSnappersForm-->
 			<?php
 			/* Run the loop to output the posts.
